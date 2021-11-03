@@ -37,7 +37,7 @@ func (g *Gorlla) Says() string {
 	return "Ooof"
 }
 
-func main() {
+func practice() {
 
 	// fmt
 	whatWasSiad, theOther := say()
