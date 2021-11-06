@@ -7,25 +7,32 @@ import (
 	"net/http"
 	"path/filepath"
 	"text/template"
+
+	"github.com/olive-okamoto/go-startup/pkg/config"
 )
 
 var functions = template.FuncMap{}
 
+var app *config.AppConfig
+
+// Sets the config for the template package
+func NewTemplates(a *config.AppConfig) {
+	app = a
+}
+
 // Render templates using html/template
 func RenderTemplete(w http.ResponseWriter, tmpl string) {
 
-	tc, err := CreateTemplateCache()
-	if err != nil {
-		log.Fatal(err)
-	}
+	tc := app.TemplateCache
+
 	t, ok := tc[tmpl]
 	if !ok {
-		log.Fatal(err)
+		log.Fatal("Could not get template from template cache")
 	}
 	buf := new(bytes.Buffer)
 	// Execute(io.Writer(outputDestination), <data>)
 	_ = t.Execute(buf, nil)
-	_, err = buf.WriteTo(w)
+	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("Error writing template", err)
 	}
