@@ -23,7 +23,7 @@ func NoSurf(next http.Handler) http.Handler {
 	return csrfHandler
 }
 
-// Loads and saves the session oon every request
+// Loads and saves the session on every request
 func SessionLoad(next http.Handler) http.Handler {
 	return session.LoadAndSave(next)
 }
