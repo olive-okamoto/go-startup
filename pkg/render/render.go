@@ -21,6 +21,10 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 /*
 *  Render templates using html/template
 * 	td: TemplateData
@@ -40,6 +44,9 @@ func RenderTemplete(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 		log.Fatal("Could not get template from template cache")
 	}
 	buf := new(bytes.Buffer)
+
+	td = AddDefaultData(td)
+
 	// Execute(io.Writer(outputDestination), <data>)
 	_ = t.Execute(buf, td)
 	_, err := buf.WriteTo(w)
