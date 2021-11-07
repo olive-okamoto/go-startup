@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/olive-okamoto/go-startup/pkg/config"
+	"github.com/olive-okamoto/go-startup/pkg/models"
 	"github.com/olive-okamoto/go-startup/pkg/render"
 )
 
@@ -28,9 +29,14 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplete(w, "home.page.tmpl")
+	render.RenderTemplete(w, "home.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplete(w, "about.page.tmpl")
+	stringMap := make(map[string]string)
+	stringMap["test"] = "hello again"
+
+	render.RenderTemplete(w, "about.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }

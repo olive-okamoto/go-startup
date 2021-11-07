@@ -9,6 +9,7 @@ import (
 	"text/template"
 
 	"github.com/olive-okamoto/go-startup/pkg/config"
+	"github.com/olive-okamoto/go-startup/pkg/models"
 )
 
 var functions = template.FuncMap{}
@@ -20,8 +21,11 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-// Render templates using html/template
-func RenderTemplete(w http.ResponseWriter, tmpl string) {
+/*
+*  Render templates using html/template
+* 	td: TemplateData
+ */
+func RenderTemplete(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -37,7 +41,7 @@ func RenderTemplete(w http.ResponseWriter, tmpl string) {
 	}
 	buf := new(bytes.Buffer)
 	// Execute(io.Writer(outputDestination), <data>)
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, td)
 	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("Error writing template", err)
